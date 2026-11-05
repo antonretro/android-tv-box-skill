@@ -1,6 +1,12 @@
+![Android TV Box Makeover: a free Claude Code skill](media/banner.png)
+
 # Android TV Box Makeover: a Claude Code skill
 
+![Claude Code skill](https://img.shields.io/badge/Claude%20Code-skill-d97757) ![Free](https://img.shields.io/badge/price-free-2ea44f) ![License: MIT](https://img.shields.io/badge/license-MIT-blue) ![Android TV boxes](https://img.shields.io/badge/works%20on-Android%20TV%20boxes-3ddc84)
+
 **Plug in a cheap Android TV box, ask Claude, and it turns the box into a clean, safe, great entertainment box.**
+
+## Before and after
 
 ![Before and after: the box's original menu next to the new home screen](media/before-after-clean.png)
 
