@@ -2,6 +2,8 @@
 
 **Plug in a cheap Android TV box, ask Claude, and it turns the box into a clean, safe, great entertainment box.**
 
+![The box after the makeover: clean home screen with Kodi, SmartTube and a modern launcher](media/home-screen-clean.png)
+
 ![What an old MXQ Pro TV box was hiding, and what it's like now](media/findings.png)
 
 ![Root access before and after: any app could take root, now it's locked](media/root-proof.png)
