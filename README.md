@@ -2,6 +2,10 @@
 
 **Plug in a cheap Android TV box, ask Claude, and it turns the box into a clean, safe, great entertainment box.**
 
+![What an old MXQ Pro TV box was hiding, and what it's like now](media/findings.png)
+
+![Root access before and after: any app could take root, now it's locked](media/root-proof.png)
+
 Works with the usual cheap boxes (MXQ Pro, X96, T95, H96 and other Amlogic, Rockchip or Allwinner boxes). Everything is done over your home network with ADB, from your PC. Claude walks you through each step and tells you what will appear on the TV.
 
 ## What it does
