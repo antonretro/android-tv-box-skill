@@ -53,6 +53,20 @@ Common findings on cheap boxes: a **32-bit-only system** even on a 64-bit chip (
 - Before any Kodi change: `tar -czf /sdcard/kodi-backup.tgz -C /sdcard/Android/data/org.xbmc.kodi/files .kodi`, pull it, verify it opens, delete the copy on the box.
 - Scan the pulled APKs with the PC's antivirus (e.g. Windows Defender `MpCmdRun.exe -Scan -ScanType 3 -File <folder> -DisableRemediation`). Say plainly that desktop scanners only partly cover Android apps.
 - **Adware / malware check:** pull *every* user app plus the box maker's extra system apps (store, cleaner, browser, launcher), then run `python scan_apks.py <folder>` (in this folder). It looks inside each APK for ad SDKs (AdMob, AppLovin, StartApp, Airpush…), trackers, risky permissions (boot start, drawing over apps, silent installs, phone ID, location) and red flags (packed code, hidden APKs in assets). Report a table: app, verdict (ADWARE / ADS / CHECK / ok), why. Offer to remove ADWARE and ADS apps; for system apps, disable instead (`pm disable-user --user 0 <pkg>`). Re-run after removals, and check again at the end of the makeover.
+- **Known TV-box botnet check** (cheap boxes are a favourite target; some ship infected from the factory). Run, and report each line as found / not found:
+  ```
+  pm list packages -a | grep -iE 'x\.cpe|oemservice|abc\.nexus|videostrong|yokatv|linkfog|appsalt|honeygain|gaganode|netnut|traffmonetizer'
+  ls -la /oem; mount | grep -i oem
+  ls -la /system/xbin/vo1d /system/xbin/wd /system/bin/debuggerd_real 2>&1
+  grep -iE 'vo1d|wd|debuggerd' /system/bin/install-recovery.sh /system/etc/install-recovery.sh 2>/dev/null
+  grep -iE 'anyevonline|szbboys|videostrong' /system/etc/hosts
+  getprop ro.product.brand; getprop ro.product.manufacturer; getprop ro.build.fingerprint
+  ```
+  - **XCPE** (Google takedown, Nov 2026): backdoor `x.cpe` / `com.oemservice`, loader `com.abc.nexus`, reinstalls from `/oem`; C2 `anyevonline.com`, `mqtt.szbboys.com`; maker Videostrong, mostly MECOOL-branded boxes. Proxy/ad-fraud modules: Linkfog, AppSalt/Honeygain, GaGaNode, NetNut, Traffmonetizer.
+  - **Vo1d** (2024): extra files like `/system/xbin/vo1d`, `/system/xbin/wd`, a renamed `debuggerd`, and a modified `install-recovery.sh`.
+  - **BADBOX 2.0** (2025): uncertified off-brand boxes; look for unknown system apps that disable Play Protect, silently install apps or run proxies.
+  - Indicators change: check recent security news for the box's brand before trusting a clean result.
+  - **If anything matches:** tell the user plainly. Removal usually doesn't stick (these reinstall from firmware). Real fixes: clean official firmware, or keep the box off the home network (guest/IoT network at minimum). Never put personal logins on it.
 - Also watch for: apps that show pop-ups or full-screen ads, "cleaner"/"booster" apps, unknown app stores, and apps that start at boot and draw over the screen.
 
 ## 4. Clean and secure
