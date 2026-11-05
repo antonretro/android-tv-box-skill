@@ -57,7 +57,11 @@ Common findings on cheap boxes: a **32-bit-only system** even on a 64-bit chip (
 
 ## 4. Clean and secure
 
-- Uninstall only what the user agrees to (dead apps, flagged apps): `adb uninstall <pkg>`.
+- Uninstall only what the user agrees to (dead apps, flagged apps): `adb uninstall <pkg>`. Make sure each APK is in the backup first.
+- Typical junk on "fully loaded" boxes: an unknown preinstalled app store, a "cleaner"/"booster"/"start manager" app, a root file manager with ads, Kodi add-on installers that ask for contacts or location, and outdated streaming apps with several ad networks. Box-maker system apps (media casting, OTA updater, file browser, video player) are usually fine to keep; never use an OTA app's "local update" with random files.
+- If the user keeps an app that has ads or risky permissions, revoke what Android allows: `pm revoke <pkg> android.permission.RECORD_AUDIO` (runtime permissions only). Don't patch ads out of other people's apps.
+- To hide apps just for a screenshot without deleting anything: `pm disable-user --user 0 <pkg>`, capture, then `pm enable <pkg>` in the same command.
+- After removals, run `scan_apks.py` again and show the new results.
 - If `su` is open to everyone, lock it to root:
   `su -c 'mount -o rw,remount /system && chmod 0700 /system/xbin/su && chown root:root /system/xbin/su && mount -o ro,remount /system'`
   then confirm `su -c id` as the shell user gives "Permission denied". On debug builds `adb root` still works for maintenance.
