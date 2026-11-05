@@ -13,7 +13,7 @@ Works with the usual cheap boxes (MXQ Pro, X96, T95, H96 and other Amlogic, Rock
 ## What it does
 
 1. **Audits the box**: real specs, Android version, every installed app and what it's allowed to do, hidden root access, Kodi add-ons. Cheap boxes often ship "fully loaded" with sketchy apps and **root access any app can grab with no prompt**.
-2. **Backs everything up** to your PC first, and scans the apps with your antivirus.
+2. **Backs everything up** to your PC first, scans the apps with your antivirus, and runs an **adware check** that looks inside every app for ad networks, trackers and risky permissions.
 3. **Cleans and secures** it: removes dead or flagged apps (only the ones you agree to) and locks down open root.
 4. **Upgrades Kodi** to the latest official version with Kodi's clean default look.
 5. **Free live TV, radio and weather**: builds a channel list for the countries you pick, from [iptv-org](https://github.com/iptv-org/iptv) (TV) and [Radio Browser](https://www.radio-browser.info) (radio), small enough to stay smooth on a 1 GB box.
