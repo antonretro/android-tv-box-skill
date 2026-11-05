@@ -58,7 +58,8 @@ Common findings on cheap boxes: a **32-bit-only system** even on a 64-bit chip (
 ## 4. Clean and secure
 
 - Uninstall only what the user agrees to (dead apps, flagged apps): `adb uninstall <pkg>`. Make sure each APK is in the backup first.
-- Typical junk on "fully loaded" boxes: an unknown preinstalled app store, a "cleaner"/"booster"/"start manager" app, a root file manager with ads, Kodi add-on installers that ask for contacts or location, and outdated streaming apps with several ad networks. Box-maker system apps (media casting, OTA updater, file browser, video player) are usually fine to keep; never use an OTA app's "local update" with random files.
+- Typical junk on "fully loaded" boxes: an unknown preinstalled app store, a "cleaner"/"booster"/"start manager" app, a root file manager with ads, Kodi add-on installers that ask for contacts or location, and outdated streaming apps with several ad networks. Box-maker system apps (media casting, file browser, video player) are usually fine to keep.
+- **Switch off the OTA updater by default** (on Amlogic boxes often "UPDATE&BACKUP", `com.droidlogic.otaupgrade`): `pm disable-user --user 0 <pkg>`. Its "local update" rewrites the whole system, and a firmware file for the wrong clone board bricks the box; cheap boxes rarely get real updates anyway. Tell the user, and re-enable it (`pm enable <pkg>`) only to install an official firmware file. Recovery-mode flashing still exists but needs a button held at power-on, so it won't happen by accident.
 - If the user keeps an app that has ads or risky permissions, revoke what Android allows: `pm revoke <pkg> android.permission.RECORD_AUDIO` (runtime permissions only). Don't patch ads out of other people's apps.
 - To hide apps just for a screenshot without deleting anything: `pm disable-user --user 0 <pkg>`, capture, then `pm enable <pkg>` in the same command.
 - After removals, run `scan_apks.py` again and show the new results.
