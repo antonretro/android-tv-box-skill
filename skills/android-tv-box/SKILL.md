@@ -88,6 +88,11 @@ Common findings on cheap boxes: a **32-bit-only system** even on a 64-bit chip (
 
 ## 7. Apps
 
+**Ask the user which app store they want:**
+- the box's own **Google Play Store**, if it has one (`pm list packages | grep vending`). Suggest a spare Google account on an old, unpatched box; some apps may show "not compatible" on uncertified boxes.
+- **F-Droid**: open-source apps only, no account. Official APK: `https://f-droid.org/F-Droid.apk`; check the signer with `apksigner` (CN=Ciaran Gultnieks) and that `sdkVersion` fits the box.
+- or both. Steer away from random APK sites and unknown preinstalled stores.
+
 Install with `adb install -r app.apk` after checking `sdkVersion` (must be ≤ the box's SDK) and `native-code` (must include the box's ABI; on 32-bit systems add `--abi armeabi-v7a`).
 
 | App | Official source | Notes |
