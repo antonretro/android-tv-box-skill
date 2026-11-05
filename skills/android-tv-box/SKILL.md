@@ -52,6 +52,8 @@ Common findings on cheap boxes: a **32-bit-only system** even on a 64-bit chip (
 - Pull every user-installed APK, `pm list packages -f`, `getprop`, the Kodi add-on list and the original `su` to a backup folder on the PC.
 - Before any Kodi change: `tar -czf /sdcard/kodi-backup.tgz -C /sdcard/Android/data/org.xbmc.kodi/files .kodi`, pull it, verify it opens, delete the copy on the box.
 - Scan the pulled APKs with the PC's antivirus (e.g. Windows Defender `MpCmdRun.exe -Scan -ScanType 3 -File <folder> -DisableRemediation`). Say plainly that desktop scanners only partly cover Android apps.
+- **Adware / malware check:** pull *every* user app plus the box maker's extra system apps (store, cleaner, browser, launcher), then run `python scan_apks.py <folder>` (in this folder). It looks inside each APK for ad SDKs (AdMob, AppLovin, StartApp, Airpush…), trackers, risky permissions (boot start, drawing over apps, silent installs, phone ID, location) and red flags (packed code, hidden APKs in assets). Report a table: app, verdict (ADWARE / ADS / CHECK / ok), why. Offer to remove ADWARE and ADS apps; for system apps, disable instead (`pm disable-user --user 0 <pkg>`). Re-run after removals, and check again at the end of the makeover.
+- Also watch for: apps that show pop-ups or full-screen ads, "cleaner"/"booster" apps, unknown app stores, and apps that start at boot and draw over the screen.
 
 ## 4. Clean and secure
 
