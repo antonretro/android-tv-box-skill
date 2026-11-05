@@ -15,8 +15,6 @@ Works with the usual cheap boxes (MXQ Pro, X96, T95, H96 and other Amlogic, Rock
 7. **Speed tweaks** that actually help on weak hardware.
 8. Leaves a notes file, so you or another assistant can pick up later.
 
-What it **won't** do: install pirate streaming apps or add-ons, bypass DRM, or type your passwords for you.
-
 ## Install
 
 1. Install [Claude Code](https://claude.com/claude-code).
