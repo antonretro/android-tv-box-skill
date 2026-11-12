@@ -1,6 +1,6 @@
 ---
 name: android-tv-box
-description: Turn a cheap Android TV box (MXQ Pro, X96, T95, H96 and other Amlogic/Rockchip/Allwinner boxes) into a clean, safe, great entertainment box over ADB - audit for backdoors, back up, malware-scan, lock open root, upgrade Kodi with a clean skin, load free TV + radio + weather channels, install YouTube (SmartTube), a modern launcher, retro games and speed tweaks. Use when the user plugs in an Android TV box and asks to set it up, clean it, check it, or "make it the best box ever".
+description: Turn a cheap Android TV box (MXQ Pro, X96, T95, H96 and other Amlogic/Rockchip/Allwinner boxes) into a clean, safe, great entertainment box over ADB - audit for backdoors, back up, malware-scan, lock open root, upgrade Kodi with a clean skin, load free TV + radio + weather channels, install YouTube (SmartTube), a modern home screen (AntonOS or Projectivy), retro games and speed tweaks. Use when the user plugs in an Android TV box and asks to set it up, clean it, check it, or "make it the best box ever".
 ---
 
 # Android TV box makeover
@@ -112,12 +112,29 @@ Install with `adb install -r app.apk` after checking `sdkVersion` (must be ≤ t
 | App | Official source | Notes |
 |---|---|---|
 | SmartTube (YouTube) | github.com/yuliskov/SmartTube/releases | Google's YouTube TV app doesn't run on plain Android boxes |
-| Projectivy Launcher | github.com/spocky/miproja1/releases | Keep the original launcher installed; the user picks the default home app |
 | RetroArch | buildbot.libretro.com | 32-bit "ra32" build for 32-bit systems; uses the user's own game files |
 | Pluto TV, Tubi, Plex | Their store listings | Free, legit, ad-supported. Newest versions may need a newer Android; check minSdk |
 | The user's own APKs | wherever they keep them | Check the ABI; a 64-bit-only build won't install on a 32-bit system (rebuild with ARMv7 enabled) |
 
 App stores that fetch from Google Play anonymously (e.g. Aurora) often can't see TV-only apps on uncertified boxes; direct APKs from the developer are more reliable.
+
+### Home screen: ask which one
+
+**Ask the user:** "Which home screen would you like: **AntonOS** (recommended: TV with a guide, radio, YouTube shelves, music, games with box art, a phone remote; made for these boxes) or **Projectivy Launcher** (a lighter, widely used third-party launcher)?" Default to AntonOS if they have no preference. Either way the box's original launcher stays installed as the fallback; never uninstall or disable it.
+
+**AntonOS** ([antonretro/antonos](https://github.com/antonretro/antonos), MIT, early preview: tested on an MXQ Pro, Android 7.1):
+1. Download the newest release APK (pre-releases included): `gh release download --repo antonretro/antonos --pattern "*.apk"` for the newest, or the URL from `https://api.github.com/repos/antonretro/antonos/releases?per_page=1` (`assets[0].browser_download_url`). Needs Android 7.1+ (`minSdkVersion 25`); `armeabi-v7a`, so it runs on 32-bit systems.
+2. Check the signer before installing: `apksigner verify --print-certs AntonOS-*.apk` must show `CN=Retro Launcher, O=antonretro` and SHA-256 `d59b32a519abbffee5595a005173c93856218b7651970c9ff36ce710740ed0e6`. Anything else: stop and tell the user.
+3. `adb install -r AntonOS-*.apk`
+4. Compile it lean and fast, **before** the key helper is switched on (compiling kills the app process the helper lives in): `adb shell cmd package compile -m speed-profile -f com.antonretro.launcher`. Not `-m speed`: on these boxes full compilation takes ~70 MB and can fill `/data`.
+5. Permissions: `adb shell pm grant com.antonretro.launcher android.permission.WRITE_SECURE_SETTINGS` (lets it switch its key helper back on by itself), plus `android.permission.READ_EXTERNAL_STORAGE`, `android.permission.WRITE_EXTERNAL_STORAGE` and `android.permission.ACCESS_COARSE_LOCATION` (Wi-Fi list).
+6. Its folder is `/sdcard/RetroLauncher/` (the app's old name; kept so updates keep settings). Put the channel list there: `adb push channels.m3u /sdcard/RetroLauncher/channels.m3u` (from step 6; on first start it also copies Kodi's list if there is none). Games go in `/sdcard/RetroLauncher/Games/<system>/` (nes, snes, gb, gbc, gba, md, sms, gg, pce) from the user's own files; RetroArch from the table above is its hidden game engine.
+7. The key helper (Xbox/Guide button goes Home from anywhere, the menu over games): add `com.antonretro.launcher/com.antonretro.launcher.RetroKeys` to `settings get secure enabled_accessibility_services` (keep anything already there, `:`-separated), then `settings put secure accessibility_enabled 1`.
+8. Make it the home app: `adb shell cmd package set-home-activity com.antonretro.launcher/.HomeActivity`, then press Home.
+9. Prove a real remote key reaches it (a stale helper once swallowed every key): `adb shell "sendevent /dev/input/event0 1 103 1; sendevent /dev/input/event0 0 0 0; sendevent /dev/input/event0 1 103 0; sendevent /dev/input/event0 0 0 0"` (find the remote's device with `getevent -i`), then check the focus moved on a screenshot. If keys don't arrive, take the helper out of `enabled_accessibility_services` again and tell the user (the remote must always work).
+10. Tell the user: the phone remote is in Settings → Controllers & Remotes → Use your phone (QR code); the old menu is Settings → Classic launcher.
+
+**Projectivy Launcher:** official APK from `github.com/spocky/miproja1/releases` (check `sdkVersion`), `adb install -r`, then let the user pick it as the default home app (or `cmd package set-home-activity` with its home activity from `cmd package resolve-activity --brief -c android.intent.category.HOME`). Keep the original launcher installed.
 
 ## 8. Speed
 

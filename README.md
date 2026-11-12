@@ -23,7 +23,11 @@ Works with the usual cheap boxes (MXQ Pro, X96, T95, H96 and other Amlogic, Rock
 3. **Cleans and secures** it: removes dead or flagged apps (only the ones you agree to) and locks down open root.
 4. **Upgrades Kodi** to the latest official version with Kodi's clean default look.
 5. **Free live TV, radio and weather**: builds a channel list for the countries you pick, from [iptv-org](https://github.com/iptv-org/iptv) (TV) and [Radio Browser](https://www.radio-browser.info) (radio), small enough to stay smooth on a 1 GB box.
-6. **Apps**: SmartTube for YouTube, Projectivy Launcher for a modern home screen (your old menu stays), RetroArch for retro games, plus free legit apps like Pluto TV and Tubi.
+6. **Apps**: SmartTube for YouTube, RetroArch for retro games, free legit apps like Pluto TV and Tubi, and a modern home screen of your choice (your old menu stays):
+   - **[AntonOS](https://github.com/antonretro/antonos)** (recommended, by the same author): TV with a guide, radio, YouTube shelves, music, games with box art and a phone remote, made for these boxes.
+   - **Projectivy Launcher**: a lighter, widely used third-party launcher.
+
+   ![AntonOS home screen](media/antonos-home.jpg)
 7. **Speed tweaks** that actually help on weak hardware.
 8. Leaves a notes file, so you or another assistant can pick up later.
 
@@ -59,4 +63,4 @@ It writes one playlist with TV channels for those countries (geo-blocked and par
 
 ## License
 
-MIT. Not affiliated with Kodi, iptv-org, Radio Browser, SmartTube, Projectivy or any box maker.
+MIT. Not affiliated with Kodi, iptv-org, Radio Browser, SmartTube, Projectivy or any box maker. AntonOS is by the same author.
